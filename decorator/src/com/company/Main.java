@@ -9,7 +9,7 @@ public class Main {
 
   private static final String CONNECTION_STRING = "jdbc:custom:mysql://localhost:3306/";
 
-  private static final String PROPS_FILE_PATH = "/home/alexrazinkov/projects/VSU/patterns/proxy/db.properties";
+  private static final String PROPS_FILE_PATH = "/home/alexrazinkov/projects/VSU/patterns/decorator/db.properties";
 
   private static final List<Pair<Character, String>> SIGN_TO_PROP = Arrays.asList(
     new Pair<>('?', "user"),
