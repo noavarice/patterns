@@ -1,7 +1,7 @@
 package com.company;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
@@ -9,7 +9,7 @@ public class Main {
 
   private static final String CONNECTION_STRING = "jdbc:custom:mysql://localhost:3306/";
 
-  private static final String PROPS_FILE_PATH = "/home/alexrazinkov/projects/VSU/patterns/decorator/db.properties";
+  private static final String PROPS_FILE_NAME = "db.properties";
 
   private static final List<Pair<Character, String>> SIGN_TO_PROP = Arrays.asList(
     new Pair<>('?', "user"),
@@ -18,8 +18,8 @@ public class Main {
 
   private static Connection getConnection(final String propsFilePath) throws SQLException {
     final Properties props = new Properties();
-    try (final FileInputStream fis = new FileInputStream(PROPS_FILE_PATH)) {
-      props.load(fis);
+    try (final InputStream is = Main.class.getResourceAsStream(propsFilePath)) {
+      props.load(is);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -36,13 +36,12 @@ public class Main {
   public static void main(String[] args) throws SQLException {
     final Connection conn;
     try {
-      conn = getConnection(PROPS_FILE_PATH);
+      conn = getConnection(PROPS_FILE_NAME);
     } catch (SQLException e) {
       e.printStackTrace();
       return;
     }
 
-    conn.prepareStatement("USE shop");
     final PreparedStatement ps = conn.prepareStatement("SELECT * FROM products;");
     final ResultSet rs = ps.executeQuery();
     final ResultSetMetaData rsmd = rs.getMetaData();
